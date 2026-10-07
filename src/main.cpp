@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-// ---- Configuration ----
-const uint8_t SERVO_PIN = 9;     // Connected via jumper: "Pul" (Động cơ Servo) -> "PB1-9"
+
+const uint8_t SERVO_PIN = 9;    
 const int MIN_ANGLE = 0;
 const int MAX_ANGLE = 180;
 
@@ -11,7 +11,7 @@ Servo myServo;
 String inputBuffer = "";
 bool commandReady = false;
 
-// ---- Function prototypes ----
+
 void readSerialCommand();
 void processCommand(String cmd);
 bool isValidNumber(const String &s);
@@ -19,7 +19,7 @@ bool isValidNumber(const String &s);
 void setup() {
   Serial.begin(9600);
   myServo.attach(SERVO_PIN);
-  myServo.write(90);           // start at a safe neutral position
+  myServo.write(90);           
   Serial.println(F("READY - Send angle (0-180) followed by Enter"));
 }
 
@@ -33,7 +33,7 @@ void loop() {
   }
 }
 
-// Reads characters until newline, builds up inputBuffer
+
 void readSerialCommand() {
   while (Serial.available() > 0 && !commandReady) {
     char c = Serial.read();
@@ -51,7 +51,7 @@ void readSerialCommand() {
 void processCommand(String cmd) {
   cmd.trim();
 
-  // Validate: must be numeric (allow optional leading '-')
+ 
   if (!isValidNumber(cmd)) {
     Serial.print(F("ERROR: '"));
     Serial.print(cmd);
@@ -75,7 +75,7 @@ void processCommand(String cmd) {
   }
 
   myServo.write(angle);
-  delay(15); // allow servo time to move (safe minimum)
+  delay(15);
 
   Serial.print(F("OK: Servo moved to "));
   Serial.print(angle);
@@ -89,7 +89,7 @@ bool isValidNumber(const String &s) {
   int start = 0;
   if (s.charAt(0) == '-') {
     start = 1;
-    if (s.length() == 1) return false; // just "-"
+    if (s.length() == 1) return false; 
   }
 
   for (unsigned int i = start; i < s.length(); i++) {
